@@ -1,0 +1,93 @@
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Listing Quality Reviewer</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,"Segoe UI",sans-serif;background:#f4f7fb;color:#1d2433}
+nav{display:flex;justify-content:space-between;align-items:center;padding:12px 28px;background:#fff;border-bottom:1px solid #e3e8f0;position:sticky;top:0;z-index:5}
+.brand{font-weight:700;font-size:18px}.logo{background:#4f6df5;color:#fff;border-radius:8px;padding:2px 8px;margin-right:6px}
+.tab{border:0;background:none;padding:8px 16px;border-radius:8px;cursor:pointer;color:#5b6577;font-weight:600}.tab.on{background:#eaeffe;color:#3b54d6}
+main{max-width:1180px;margin:24px auto;padding:0 16px}.cols{display:grid;grid-template-columns:420px 1fr;gap:20px;align-items:start}@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #e3e8f0;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(20,30,60,.04)}
+h2{margin:0 0 4px;font-size:20px}h3{margin:0 0 10px}.muted{color:#6b7587;font-size:13px}.hide{display:none}
+form{display:flex;flex-direction:column;gap:14px;margin-top:14px}label{display:flex;flex-direction:column;gap:5px;font-weight:600;font-size:13px;color:#39435a}
+input,select,textarea{font:inherit;padding:10px 12px;border:1px solid #d5dce8;border-radius:10px;background:#fbfcfe;outline:none;width:100%}
+input:focus,select:focus,textarea:focus{border-color:#4f6df5;box-shadow:0 0 0 3px #dfe5ff}small{color:#8a93a5;font-weight:400}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.attrs{background:#f4f7ff;border:1px dashed #c6d1ff;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}button.b{border:0;border-radius:10px;padding:10px 18px;font-weight:600;cursor:pointer;font-size:14px;background:#eef1f7;color:#39435a}
+.b.sm{padding:6px 12px;font-size:13px}.b.p{background:#4f6df5;color:#fff}.b.ok{background:#e3f6ea;color:#17703a}.b.no{background:#fde8e8;color:#b42318}
+.sum{display:flex;gap:18px;align-items:center}.ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;flex:none}.ring span{background:#fff;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:20px}
+.badge{padding:3px 12px;border-radius:99px;font-weight:700;font-size:13px}.badge.ok{background:#e3f6ea;color:#17703a}.badge.no{background:#fde8e8;color:#b42318}.badge.w{background:#fff4d6;color:#8a5a00}
+.err{background:#fff6f6;border-color:#f5c6c6}.err li{color:#b42318}.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}.cmp p{margin:2px 0;padding:8px 10px;background:#f6f8fc;border-radius:8px}.cmp .ch{background:#e8f8ee}
+.f{background:#fff;border:1px solid #e3e8f0;border-left:5px solid #9aa5b8;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.f.critical{border-left-color:#d92d20}.f.high{border-left-color:#f08c1a}.f.medium{border-left-color:#e6b800}.f.low{border-left-color:#7a8aa8}
+.pill{font-size:11px;font-weight:700;border-radius:99px;padding:2px 10px;text-transform:uppercase;background:#eef1f7;color:#4d5a73;margin-right:4px}
+.pill.critical{background:#fde8e8;color:#b42318}.pill.high{background:#ffeedb;color:#a8530a}.pill.medium{background:#fff4d6;color:#8a5a00}.pill.ai{background:#efe5ff;color:#6b32c9}
+.st{float:right;font-size:11px;font-weight:700;text-transform:uppercase}.st.approved,.st.approve{color:#17703a}.st.rejected,.st.reject{color:#b42318}.st.edited,.st.edit{color:#3b54d6}
+mark{background:#ffe9e0;padding:1px 5px;border-radius:5px}.sg{color:#17703a}summary{cursor:pointer;color:#3b54d6;font-size:13px;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;color:#6b7587;font-size:12px}td,th{padding:8px 6px;border-bottom:1px solid #eef1f6}tr.c{cursor:pointer}tr.c:hover{background:#f4f7ff}
+.lg{padding:8px 0;border-bottom:1px solid #eef1f6}.empty{text-align:center;padding:50px 20px}
+</style>
+<nav><div class=brand><span class=logo>✔</span> Listing Quality Reviewer</div><div>
+<button class="tab on" data-t=review>Review</button><button class=tab data-t=batch>Batch</button><button class=tab data-t=history>History</button></div></nav>
+<main>
+<section id=review class=cols>
+ <div class=card><h2>Review a listing</h2><p class=muted>Check it against marketplace policy and the brand-content guide.</p>
+ <form id=form>
+  <label>Product title <input id=title placeholder="e.g. Nike Air Max running shoes"><small id=tc>0/80</small></label>
+  <label>Description <textarea id=desc rows=5 placeholder="Material, size, condition, what is included..."></textarea></label>
+  <div class=r2><label>Category <select id=cat></select></label><label>Price (₹) <input id=price placeholder="999"></label></div>
+  <div id=attrs class="attrs hide"></div>
+  <label>Seller <input id=seller placeholder="Seller name"></label>
+  <label>Tags <span class=muted>(optional, comma separated)</span><input id=tags></label>
+  <div class=acts><button class="b p" id=go>Review Listing</button><button type=button class=b onclick=sample()>Load sample</button><button type=button class=b onclick=clearForm()>Clear</button></div>
+ </form></div>
+ <div id=res><div class="card empty"><h3>No review yet</h3><p class=muted>Fill the form and press “Review Listing”. Findings, policy citations and suggested wording appear here.</p></div></div>
+</section>
+<section id=batch class=hide><div class=card><h2>Batch review</h2><p class=muted>Paste a JSON array of listings, or upload a CSV (title,description,category,price,seller,tags,attributes like <code>brand=Acme;condition=new</code>).</p>
+ <textarea id=bj rows=7 placeholder='[{"title":"...","description":"...","category":"Books","price":"299","seller":"x","attributes":{"author":"A","condition":"new"}}]'></textarea>
+ <div class=acts><button class="b p" onclick=batchGo()>Review batch</button><input type=file id=bf accept=.csv style="width:auto" onchange=csvGo(event)><a href=/api/export.csv>Export reviewed listings (CSV)</a></div></div>
+ <div class=card><h3>Batch results</h3><div id=bo class=muted>Nothing yet.</div></div></section>
+<section id=history class="cols hide"><div class=card><h2>Past reviews</h2><div id=hl></div></div><div class=card><h2>Approval history</h2><div id=hg></div></div></section>
+</main>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const api=async(u,b,raw)=>(await fetch(u,b?{method:"POST",headers:raw?{}:{"Content-Type":"application/json"},body:raw?b:JSON.stringify(b)}:{})).json();
+let CFG={categories:{},title_max:80},ALL={},CUR=null,EDIT=null;
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x==t));
+ ["review","batch","history"].forEach(s=>$("#"+s).classList.toggle("hide",s!=t.dataset.t));if(t.dataset.t=="history")hist()});
+async function init(){CFG=await api("/api/config");$("#cat").innerHTML='<option value="">Select...</option>'+Object.keys(CFG.categories).map(c=>`<option>${c}</option>`).join("");await loadAll()}
+$("#title").oninput=e=>$("#tc").textContent=e.target.value.length+"/"+CFG.title_max;
+$("#cat").onchange=()=>{const a=CFG.categories[$("#cat").value]||[];$("#attrs").classList.toggle("hide",!a.length);
+ $("#attrs").innerHTML=a.length?`<b>Required details for ${esc($("#cat").value)}</b><div class=r2>${a.map(k=>`<label>${k}<input data-a="${k}"></label>`).join("")}</div>`:""};
+function sample(){$("#title").value="NIKE AIR MAX Shoes!!!";$("#desc").value="100% authentic original Nike shoes, amazing quality and nice comfort. Call me on 9876543210 for the cheapest price.";
+ $("#cat").value="Electronics";$("#cat").onchange();$("#price").value="₹999";$("#seller").value="Urban Kicks";$("#tags").value="nike, running";document.querySelector("[data-a=brand]").value="Nike"}
+function clearForm(){$("#form").reset();$("#cat").onchange();$("#tc").textContent="0/80"}
+$("#form").onsubmit=async e=>{e.preventDefault();$("#go").textContent="Reviewing...";const at={};document.querySelectorAll("[data-a]").forEach(i=>at[i.dataset.a]=i.value);
+ const ids=await api("/api/batch",{listings:[{title:$("#title").value,description:$("#desc").value,category:$("#cat").value,price:$("#price").value,seller:$("#seller").value,
+  tags:$("#tags").value.split(",").map(t=>t.trim()).filter(Boolean),attributes:at}]});$("#go").textContent="Review Listing";await loadAll();show(ids[0])};
+async function loadAll(){ALL={};(await api("/api/listings")).forEach(r=>ALL[r.id]=r)}
+function show(id){CUR=id;EDIT=null;draw()}
+function draw(){const r=ALL[CUR];if(!r)return;const o=r.original,v=r.revised,cl=r.decision=="Blocked"?"no":r.decision.startsWith("Ready")?"ok":"w";
+ const col=r.score>=80?"#2e9e5b":r.score>=50?"#e6a100":"#d92d20";
+ const assume=r.findings.filter(f=>f.kind=="unverifiable");
+ $("#res").innerHTML=`<div class="card sum"><div class=ring style="background:conic-gradient(${col} ${r.score}%,#e8ecf5 0)"><span>${r.score}</span></div>
+ <div><span class=muted>Listing #${r.id} · ${esc(o.seller)} · ${esc(o.category)} · ₹${esc(o.price)}</span><h2>${esc(o.title)}</h2><span class="badge ${cl}">${r.decision}</span> <span class=muted>${r.findings.length} findings</span></div></div>
+ ${r.errors.length?`<div class="card err"><h3>Validation errors</h3><ul>${r.errors.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>`:""}
+ ${assume.length?`<div class=card><h3>Assumptions &amp; unverifiable claims</h3><p class=muted>The seller must be able to prove these: ${assume.map(f=>`<mark>${esc(f.from)}</mark>`).join(" ")}</p></div>`:""}
+ <div class=card><h3>Original vs revised</h3>${["title","description"].map(f=>`<div class=cmp><div><small>Original ${f}</small><p>${esc(o[f])}</p></div><div><small>Revised ${f}</small><p class="${v[f]!=o[f]?"ch":""}">${esc(v[f])}</p></div></div>`).join("")}</div>
+ <h3>Findings</h3>${r.findings.length?"":'<div class=card>No policy issues found 🎉</div>'}${r.findings.map((f,k)=>card(r,f,k)).join("")}`}
+function card(r,f,k){const done=f.status!="open",ed=EDIT===k,cur=r.revised[f.field]??"";
+ return `<div class="f ${f.severity}"><span class="st ${f.status}">${done?f.status:""}</span><span class="pill ${f.severity}">${f.severity}</span><span class=pill>${f.kind}</span><span class=pill>${f.field}</span>${f.source=="AI"?'<span class="pill ai">AI</span>':""}
+ <p style="font-size:16px;margin:10px 0 4px"><mark>${esc(f.from)}</mark>${f.to===null?"":` → <b class=sg>${f.to===""?"(remove)":esc(f.to)}</b>`}</p><p>${esc(f.explanation)}</p>
+ <details><summary>Policy: ${esc(f.policy)}</summary><p class=muted>${esc(f.policy_text)}</p></details>
+ ${ed?`<textarea id=ev rows=3>${esc(cur)}</textarea><div class=acts><button class="b p sm" onclick="act(${k},'edit',$('#ev').value)">Save edit</button><button class="b sm" onclick="EDIT=null;draw()">Cancel</button></div>`:
+ done?"":`<div class=acts><button class="b ok sm" onclick="act(${k},'approve')">${f.to===null?"Acknowledge":"Approve"}</button>${f.field!="attributes"?`<button class="b sm" onclick="EDIT=${k};draw()">Edit</button>`:""}<button class="b no sm" onclick="act(${k},'reject')">Reject</button></div>`}</div>`}
+async function act(k,a,v){await api(`/api/listings/${CUR}/decide`,{finding:k,action:a,value:v});EDIT=null;await loadAll();draw()}
+async function batchGo(){let l;try{l=JSON.parse($("#bj").value)}catch{return alert("Invalid JSON")}await api("/api/batch",{listings:l});await loadAll();bt()}
+async function csvGo(e){await api("/api/import-csv",await e.target.files[0].text(),true);await loadAll();bt()}
+const rows=()=>Object.values(ALL).sort((a,b)=>b.id-a.id);
+function bt(){$("#bo").innerHTML=tbl()}
+function tbl(){return `<table><tr><th>#</th><th>Title</th><th>Seller</th><th>Score</th><th>Decision</th></tr>${rows().map(r=>`<tr class=c onclick="open_(${r.id})"><td>${r.id}</td><td>${esc(r.original.title)}</td><td>${esc(r.original.seller)}</td><td>${r.score}</td><td>${r.decision}</td></tr>`).join("")}</table>`}
+function open_(id){document.querySelector('[data-t=review]').click();show(id)}
+async function hist(){await loadAll();$("#hl").innerHTML=rows().length?tbl():'<p class=muted>No reviews yet.</p>';const h=await api("/api/history");
+ $("#hg").innerHTML=h.length?h.map(x=>`<div class=lg><b class="st ${x.action}" style="float:none">${x.action}</b> ${x.field} · listing #${x.listing_id} <small>${x.ts}</small>${x.old!=x.new?`<div class=muted>“${esc(x.old)}” → “${esc(x.new)}”</div>`:""}</div>`).join(""):'<p class=muted>No decisions yet.</p>'}
+init();
+</script></html>
