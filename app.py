@@ -221,4 +221,5 @@ def history():
     with db() as c: return jsonify([dict(r) for r in c.execute("SELECT * FROM history ORDER BY id DESC LIMIT 100")])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
